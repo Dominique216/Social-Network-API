@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose');
 const reactionSchema = require('./Reaction')
 
+
 const thoughtSchema = new Schema(
     {
         thoughtText: {
@@ -10,6 +11,10 @@ const thoughtSchema = new Schema(
         },
         createdAt: {
             type: Date,
+            get: ((date) => {
+                date = new Date().toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) 
+                return date
+            }),
             default: Date.now,
         },
         username: {
@@ -20,11 +25,13 @@ const thoughtSchema = new Schema(
     },
     {
         toJSON: {
-          virtuals: true,
+            getters: true,
+            virtuals: true,
         },
         id: false,
     }
 )
+
 
 // retrieves the length of the user's friends
 thoughtSchema.virtual('reactionCount').get(function () {

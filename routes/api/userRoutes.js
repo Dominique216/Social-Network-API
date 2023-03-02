@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const { ObjectId } = require('mongoose').Types;
 const { User, Thought } = require('../../models');
+
 // get all users 
 router.get('/', (req,res) => {
     User.find()
@@ -47,8 +47,6 @@ router.delete('/:userId', (req, res) => {
         !user
           ? res.status(404).json({ message: 'No user with that ID' })
           : Thought.deleteMany({ _id: { $in: user.thoughts} })
-        //   && User.deleteMany({ _id: { $in: user.friends} })
-
       )
       .then(() => res.json({ message: 'User deleted!' }))
       .catch((err) => res.status(500).json(err));

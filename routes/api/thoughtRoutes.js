@@ -1,11 +1,5 @@
-//  '/'
-// '/:thoughtId'
-// '/:thoughtId/reactions'
-// '/:thoughtId/reactions/:reactionsId'
 const router = require('express').Router();
-const { ObjectId } = require('mongoose').Types;
 const { User, Thought } = require('../../models');
-const reactionSchema = require('../../models/Reaction')
 
 // get all thoughts 
 router.get('/', (req,res) => {
