@@ -21,14 +21,12 @@ const reactionSchema = new Schema(
       default: Date.now,
     },
   },
-  // {
-  //   toJSON: {
-  //     getters: true,
-  //   }
-  // }
+  {
+    toJSON: {
+      getters: true,
+    },
+    id: false,
+  }
 );
 
-module.export = reactionSchema;
-// const Reaction = model('Thought', thoughtrSchema);
-
-// module.exports = seaction;
+module.exports = reactionSchema;

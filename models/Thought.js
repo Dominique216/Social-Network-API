@@ -18,11 +18,12 @@ const thoughtSchema = new Schema(
         },
         reactions: [reactionSchema],
     },
-    // {
-    //     toJSON: {
-    //       getters: true,
-    //     },
-    // }
+    {
+        toJSON: {
+          virtuals: true,
+        },
+        id: false,
+    }
 )
 
 // retrieves the length of the user's friends

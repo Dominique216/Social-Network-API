@@ -5,6 +5,7 @@
 const router = require('express').Router();
 const { ObjectId } = require('mongoose').Types;
 const { User, Thought } = require('../../models');
+const reactionSchema = require('../../models/Reaction')
 
 // get all thoughts 
 router.get('/', (req,res) => {
@@ -73,26 +74,32 @@ router.delete('/:thoughtId', (req, res) => {
       .catch((err) => res.status(500).json(err));
 })
 
-// add a friend to a user's friend list
-// router.post('/:userId/friends/:friendId', (req, res) => {
-//     User.findOneAndUpdate(
-//         { _id: req.params.userId },
-//         { $addToSet: { friends: req.params.friendId } },
-//         { runValidators: true, new: true }
-//       )
-//     .then((user) => res.json(user))
-//     .catch((err)=> res.status(500).json(err))
-// })
+// add a reaction to a thought
+router.post('/:thoughtId/reactions', (req, res) => {
+    Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $addToSet: { reactions: req.body } },
+        { runValidators: true, new: true }
+      )
+    .then((thought) => res.json(thought))
+    .catch((err)=> res.status(500).json(err))
+})
 
-// // remove a user's friend
-// router.delete('/:userId/friends/:friendId', (req, res) => {
-//     User.findOneAndUpdate(
-//         { _id: req.params.userId },
-//         { $pull: { friends: req.params.friendId } },
-//         { runValidators: true, new: true }
-//       )
-//     .then((user) => res.json(user))
-//     .catch((err)=> res.status(500).json(err))
-// })
+// remove a reaction from a thought
+router.delete('/:thoughtId/reactions/:reactionId', (req, res) => {
+    Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: { reactionId: req.params.reactionId } } },
+        { runValidators: true, new: true }
+      )
+      .then((thought) =>
+      !thought
+        ? res
+            .status(404)
+            .json({ message: 'No thought found with that ID' })
+        : res.json({ thought })
+    )
+    .catch((err)=> res.status(500).json(err))
+})
 
 module.exports = router;
