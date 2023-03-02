@@ -21,11 +21,11 @@ const reactionSchema = new Schema(
       default: Date.now,
     },
   },
-  {
-    toJSON: {
-      getters: true,
-    }
-  }
+  // {
+  //   toJSON: {
+  //     getters: true,
+  //   }
+  // }
 );
 
 module.export = reactionSchema;
